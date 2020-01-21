@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+    </script>
+    <h2>Total Cans Avaliable: {{total}}</h2>
+    {%if show%}
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Shipping Confirmed {{name}}</h4>
+        <p>Your shipment has been confirmed and updated in the database.</p>
+        <hr>
+        <p class="mb-0">Thank you for making the shipment.</p>
+    </div>
+    {%endif%}
+
+</head>
+
+<body>
+    <div class="row">
+        {% for packer in packager %}
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{packer.name}}</h5>
+                    <p class="card-text">Quantity Avaliable: {{packer.quantity}}</p>
+                    <p class="card-text">Shipped to Canada: {{packer.packaged_can}}</p>
+                    <p class="card-text">Shipped to USA: {{packer.packaged_usa}}</p>
+                    {%if not show%}
+                    <form method='POST' class="form-group">
+                        {%csrf_token%}
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+
+                                <span class="input-group-text" id="basic-addon1">Shipped </span>
+
+                            </div>
+                            {{form.post }}
+                            <div class="input-group-append">
+                                <button id="{{packer.name}}" class="btn btn-primary float-right" type="submit"
+                                    name="{{packer.name}}">Confirm</button>
+                            </div>
+
+                        </div>
+                    </form>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+
+</body>
+
+</html>

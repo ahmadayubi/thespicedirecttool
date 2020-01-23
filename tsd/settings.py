@@ -82,6 +82,9 @@ po = os.environ.get('DB_PORT')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+        'OPTIONS': {
+            'options': '-c search_path=tsd'
+        },
         'NAME': u,
         'USER': u,
         'PASSWORD': p,

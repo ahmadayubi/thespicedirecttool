@@ -74,10 +74,19 @@ WSGI_APPLICATION = 'tsd.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+u = os.environ.get('DB_USER')
+p = os.environ.get('DW_P')
+h = os.environ.get('DB_HOST')
+po = os.environ.get('DB_PORT')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': u,
+        'USER': u,
+        'PASSWORD': p,
+        'HOST': g,
+        'PORT': po,
     }
 }
 

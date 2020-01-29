@@ -1,5 +1,5 @@
 from django.db import models
-
+import datetime
 # Create your models here.
 
 
@@ -25,16 +25,32 @@ class Product(models.Model):
         return (self.product_id + ' PRICE: $'+str(self.price))
 
 
-class Packager(models.Model):
+class Order(models.Model):
     PACK = (
         ('Zak', 'Zak'),
         ('Adil', 'Adil'),
         ('Yama', 'Yama'),
     )
     name = models.CharField(max_length=15, choices=PACK, default='yama')
-    packaged_can = models.IntegerField(default=0)
-    packaged_usa = models.IntegerField(default=0)
-    quantity = models.IntegerField(default=0)
+    order_id = models.CharField(max_length=100)
+    amount_paid = models.FloatField(default=0.00)
+    quantity = models.IntegerField(default=1)
+    date = models.DateField(default=datetime.date.today)
 
     def __str__(self):
-        return (self.name + " HAS: " + str(self.quantity)+", SHIPPED TO CAD: "+str(self.packaged_can)+", SHIPPED TO USA: "+str(self.packaged_usa))
+        return (self.name + " SHIPPED: " + str(self.quantity)+", ID: "+self.order_id+", ON: "+str(self.date))
+
+
+class Expense(models.Model):
+    EMP = (
+        ('Zak', 'Zak'),
+        ('Adil', 'Adil'),
+        ('Yama', 'Yama'),
+    )
+    name = models.CharField(max_length=15, choices=EMP, default='yama')
+    reason = models.CharField(max_length=200)
+    date = models.DateField(default=datetime.date.today)
+    amount = models.FloatField(default=0.00)
+
+    def __str__(self):
+        return (self.name + " SPENT: " + str(self.amount)+", FOR: "+self.reason+", ON: "+str(self.date))

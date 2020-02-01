@@ -30,6 +30,10 @@
                     <a class="nav-link" href="{% url 'track:expense' %}">All Expenses <span
                             class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item active mr-5">
+                    <a class="nav-link" href="{% url 'track:store' %}">Store Invoices <span
+                            class="sr-only">(current)</span></a>
+                </li>
 
             </ul>
             <form class="form-inline my-2 my-lg-0" method='POST'>
@@ -44,11 +48,7 @@
 </head>
 
 <body>
-    {%if bType%}
-    <h3>Your Expense Has Been Tracked {{user}}</h3>
-    {%else%}
-    <h3>Thank You For Making The Order {{user}}</h3>
-    {%endif%}
+    <h3>Info Has Been Added, Thank You</h3>
 
 
 </html>

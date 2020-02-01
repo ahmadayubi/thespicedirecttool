@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from .models import Product, Order, Expense
-from .forms import OrderForm, ExpenseForm, SearchForm
+from .models import Product, Order, Expense, Invoice
+from .forms import OrderForm, ExpenseForm, SearchForm, InvoiceForm
 
 app_name = 'track'
 
@@ -108,9 +108,55 @@ class UserView(TemplateView):
                 bType = True
         searchForm = SearchForm()
         context = {
-            'user': user,
-            'type': bType,
             'search': searchForm,
         }
 
         return render(request, 'done.html', context)
+
+
+class StoreView(TemplateView):
+    def get(self, request):
+        form = InvoiceForm()
+        view = SearchForm()
+        invoice = Invoice.objects.all().order_by('-date')
+        context = {
+            'form': form,
+            'invoices': invoice,
+            'view': view,
+        }
+        return render(request, 'store.html', context)
+
+    def post(self, request):
+        view = SearchForm(request.POST)
+        if 'ADD' in request.POST:
+            invoiceForm = InvoiceForm(request.POST)
+            if invoiceForm.is_valid():
+                store = invoiceForm.cleaned_data['store']
+                iID = invoiceForm.cleaned_data['invoice_id']
+
+                oneGlass = invoiceForm.cleaned_data['oneglass']
+                twoGlass = invoiceForm.cleaned_data['twoglass']
+                twoTin = invoiceForm.cleaned_data['twocan']
+
+                oneGlassP = invoiceForm.cleaned_data['oneglass_p']
+                twoGlassP = invoiceForm.cleaned_data['twoglass_p']
+                twoTinP = invoiceForm.cleaned_data['twocan_p']
+
+                total = (oneGlass*oneGlassP) + (twoGlass*twoGlassP) + (twoTin*twoTinP)
+                date = invoiceForm.cleaned_data['date']
+
+
+                newInvoice = Invoice(store=store, invoice_id=iID,
+                                     oneglass=oneGlass, oneglass_p=oneGlassP, twoglass=twoGlass, twoglass_p=twoGlassP,
+                                     twocan=twoTin,twocan_p=twoTinP,date=date,total=total)
+                newInvoice.save()
+                return render(request, 'done.html')
+        else:
+            if view.is_valid():
+                sOrder = view.cleaned_data['order']
+                fOrder = Invoice.objects.filter(invoice_id=sOrder)
+                shipper = list(fOrder)
+                context = {
+                    'info': shipper,
+                }
+                return render(request, 'invoice.html', context)

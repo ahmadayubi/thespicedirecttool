@@ -54,3 +54,19 @@ class Expense(models.Model):
 
     def __str__(self):
         return (self.name + " SPENT: " + str(self.amount)+", FOR: "+self.reason+", ON: "+str(self.date))
+
+
+class Invoice(models.Model):
+    store = models.CharField(max_length=50)
+    invoice_id = models.IntegerField(default=0)
+    date = models.DateField(default=datetime.date.today)
+    twoglass = models.IntegerField(default=0)
+    oneglass = models.IntegerField(default=0)
+    twocan = models.IntegerField(default=0)
+    twoglass_p = models.FloatField(default=0.00)
+    oneglass_p = models.FloatField(default=0.00)
+    twocan_p = models.FloatField(default=0.00)
+    total = models.FloatField(default=0.00)
+
+    def __str__(self):
+        return (self.store + " Total: " + str(self.total))

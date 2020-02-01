@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Invoice Info</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+    </script>
+</head>
+
+<body>
+    {% for invoice in info%}
+    <div class="card m-4">
+        <div class="card-body">
+            <h4>TSD#{{invoice.invoice_id}}</h4>
+            <h5>Invoice For {{invoice.store}}</h5>
+            <h7>{{invoice.date}}</h7>
+            <hr class="my-4">
+            <div class="m-4">
+                <div class="float-left">1 Gram Glass (${{invoice.oneglass_p}} per):</div><br>
+                <div class="float-right">{{invoice.oneglass}}</div>
+                <hr class="my-4">
+                <div class="float-left">2 Gram Glass (${{invoice.twoglass_p}} per):</div><br>
+                <div class="float-right">{{invoice.twoglass}}</div>
+                <hr class="my-4">
+                <div class="float-left">3 Gram Tin (${{invoice.twocan_p}} per):</div><br>
+                <div class="float-right">{{invoice.twocan}}</div>
+                <hr class="my-4">
+            </div>
+            <div class="float-left">Total Order:</div><br>
+            <div class="float-right">${{invoice.total}}</div>
+            <hr class="my-4">
+        </div>
+    </div>
+    {%endfor%}
+</body>
+
+</html>

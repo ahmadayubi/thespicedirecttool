@@ -34,7 +34,7 @@
             </ul>
             <form class="form-inline my-2 my-lg-0" method='POST'>
                 {%csrf_token%}
-                {{search.order_id}}
+                {{search.order}}
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit" id="FIND" name="FIND">Find
                     Order</button>
             </form>
@@ -43,7 +43,13 @@
 
 </head>
 
-<body>
-
+<body class="m-2">
+    <h4>Recent Orders Commited:</h4>
+    <ul class="list-group list-group-flush">
+        {%for order in orders%}
+        <li class="list-group-item">{{order.date}} | {{order.name}} shipped {{order.quantity}} can(s) | ID:
+            {{order.order_id}}</li>
+        {%endfor%}
+    </ul>
 
 </html>

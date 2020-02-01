@@ -13,3 +13,7 @@ class ExpenseForm(forms.Form):
     reason = forms.CharField()
     amount = forms.FloatField(max_value=10000, min_value=0)
     date = forms.DateField(initial=datetime.date.today())
+
+
+class SearchForm(forms.Form):
+    order = forms.CharField()

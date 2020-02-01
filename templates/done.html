@@ -34,7 +34,7 @@
             </ul>
             <form class="form-inline my-2 my-lg-0" method='POST'>
                 {%csrf_token%}
-                {{search.order_id}}
+                {{search.order}}
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit" id="FIND" name="FIND">Find
                     Order</button>
             </form>
@@ -44,7 +44,7 @@
 </head>
 
 <body>
-    {%if bType == True%}
+    {%if bType%}
     <h3>Your Expense Has Been Tracked {{user}}</h3>
     {%else%}
     <h3>Thank You For Making The Order {{user}}</h3>

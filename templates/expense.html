@@ -6,17 +6,17 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
     </script>
-    <h2>All Expenses To Date</h2>
 
 </head>
 
-<body>
-
+<body class="m-2">
+    <h2>All Expenses To Date</h2>
     {%for exp in expenses%}
     <div class="alert alert-info" role="alert">
 
 
         <ul class="list-group list-group-horizontal-md">
+            <li class="list-group-item">{{exp.date}}</li>
             <li class="list-group-item">{{exp.name}}</li>
             <li class="list-group-item">{{exp.reason}}</li>
             <li class="list-group-item">${{exp.amount}}</li>

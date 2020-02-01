@@ -1,49 +1,39 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from .models import Product, Order, Expense
-from .forms import OrderForm, ExpenseForm
+from .forms import OrderForm, ExpenseForm, SearchForm
 
 app_name = 'track'
 
 
 class HomeView(TemplateView):
     def get(self, request):
-        search = OrderForm()
+        search = SearchForm()
+        reOrder = Order.objects.all().order_by('-date')[:5]
         context = {
             'search': search,
+            'orders': reOrder,
         }
-        ##
-        # packager = Packager.objects.order_by('name')[:5]
-        # total = 0
-        # for pack in packager:
-        #    total += pack.quantity
-        # context = {
-        #    'packager': packager,
-        #    'form': form,
-        #    'total': total,
-        #    'show': False,
-        #    'expForm': expForm,
-        # }
+
         return render(request, 'index.html', context)
 
     def post(self, request):
         if 'FIND' in request.POST:
-            searchForm = OrderForm(request.POST)
+            searchForm = SearchForm(request.POST)
             if searchForm.is_valid():
-                sOrder = searchForm.cleaned_data['order_id']
+                sOrder = searchForm.cleaned_data['order']
                 fOrder = Order.objects.filter(order_id=sOrder)
-                shipper = fOrder[0]
+                shipper = list(fOrder)
                 context = {
                     'info': shipper,
                 }
-                print("HERE")
                 return render(request, 'find.html', context)
         return render(request, 'index.html')
 
 
 class ExpenseView(TemplateView):
     def get(self, request):
-        exp = Expense.objects.all()
+        exp = Expense.objects.all().order_by('-date')
         cont = {
             'expenses': exp,
         }
@@ -60,7 +50,7 @@ class UserView(TemplateView):
             user = 'Zak'
         else:
             user = 'Yama'
-        search = OrderForm()
+        search = SearchForm()
         orderForm = OrderForm()
         expForm = ExpenseForm()
         expForm.name = user
@@ -98,11 +88,11 @@ class UserView(TemplateView):
                                  amount_paid=paid, date=date, quantity=quant)
                 newOrder.save()
         if 'FIND' in request.POST:
-            searchForm = OrderForm(request.POST)
+            searchForm = SearchForm(request.POST)
             if searchForm.is_valid():
-                sOrder = searchForm.cleaned_data['order_id']
+                sOrder = searchForm.cleaned_data['order']
                 fOrder = Order.objects.filter(order_id=sOrder)
-                shipper = fOrder[0]
+                shipper = list(fOrder)
                 context = {
                     'info': shipper,
                 }
@@ -116,7 +106,7 @@ class UserView(TemplateView):
                 newExp = Expense(name=user, reason=re, date=date, amount=am)
                 newExp.save()
                 bType = True
-        searchForm = OrderForm()
+        searchForm = SearchForm()
         context = {
             'user': user,
             'type': bType,

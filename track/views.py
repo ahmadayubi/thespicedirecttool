@@ -6,6 +6,37 @@ from .forms import OrderForm, ExpenseForm, SearchForm, InvoiceForm
 app_name = 'track'
 
 
+class LoginView(TemplateView):
+    def get(self, request):
+        pwd = SearchForm()
+        cont = {
+            'pwd': pwd,
+        }
+        return render(request, 'login.html', cont)
+
+    def post(self, request):
+        pwd = SearchForm(request.POST)
+        if pwd.is_valid():
+            s = pwd.cleaned_data['order']
+            check = Product.objects.filter(size=s)
+            print(check)
+            if len(check) == 0:
+                pwd = SearchForm()
+                cont = {
+                    'pwd': pwd,
+                }
+                return render(request, 'login.html', cont)
+
+        search = SearchForm()
+        reOrder = Order.objects.all().order_by('-date')[:5]
+        context = {
+            'search': search,
+            'orders': reOrder,
+        }
+
+        return render(request, 'index.html', context)
+
+
 class HomeView(TemplateView):
     def get(self, request):
         search = SearchForm()
@@ -142,13 +173,13 @@ class StoreView(TemplateView):
                 twoGlassP = invoiceForm.cleaned_data['twoglass_p']
                 twoTinP = invoiceForm.cleaned_data['twocan_p']
 
-                total = (oneGlass*oneGlassP) + (twoGlass*twoGlassP) + (twoTin*twoTinP)
+                total = (oneGlass*oneGlassP) + \
+                    (twoGlass*twoGlassP) + (twoTin*twoTinP)
                 date = invoiceForm.cleaned_data['date']
-
 
                 newInvoice = Invoice(store=store, invoice_id=iID,
                                      oneglass=oneGlass, oneglass_p=oneGlassP, twoglass=twoGlass, twoglass_p=twoGlassP,
-                                     twocan=twoTin,twocan_p=twoTinP,date=date,total=total)
+                                     twocan=twoTin, twocan_p=twoTinP, date=date, total=total)
                 newInvoice.save()
                 return render(request, 'done.html')
         else:
@@ -156,7 +187,15 @@ class StoreView(TemplateView):
                 sOrder = view.cleaned_data['order']
                 fOrder = Invoice.objects.filter(invoice_id=sOrder)
                 shipper = list(fOrder)
+                if len(shipper) > 0:
+                    glassTotal = shipper[0].oneglass_p*shipper[0].oneglass + \
+                        shipper[0].twoglass_p*shipper[0].twoglass
+                    canTotal = shipper[0].twocan*shipper[0].twocan_p
+
                 context = {
                     'info': shipper,
+                    'gTotal': glassTotal,
+                    'cTotal': canTotal,
+
                 }
                 return render(request, 'invoice.html', context)

@@ -51,16 +51,17 @@
     </nav>
 </head>
 
-<body class="m-2">
+<body>
 
-    <div class="card m-2" style="text-align: center;">
-        <div class="card-body">
-            <h4>Add An Invoice: </h4>
-            <form method='POST' class="form-group m-4">
-                {%csrf_token%}
+    <div class="row m-2">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Add An Invoice: </h4>
+                    <form method='POST' class="form-group m-4">
+                        {%csrf_token%}
 
-                <div class="form-row">
-                    <div class="form-group col-md-6">
+
                         <div class="input-group mb-1 ">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">Store </span>
@@ -68,7 +69,7 @@
                             {{form.store}}
 
                         </div>
-                        <div class="input-group mb-4">
+                        <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">Invoice ID </span>
                             </div>
@@ -83,7 +84,7 @@
                             {{form.oneglass}}
 
                         </div>
-                        <div class="input-group mb-4">
+                        <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">Unit Price: $</span>
                             </div>
@@ -91,8 +92,6 @@
 
                         </div>
 
-                    </div>
-                    <div class="form-group col-md-6">
                         <div class="input-group mb-1">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">2 Gram (Glass):</span>
@@ -100,7 +99,7 @@
                             {{form.twoglass}}
 
                         </div>
-                        <div class="input-group mb-4">
+                        <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">Unit Price: $</span>
                             </div>
@@ -131,37 +130,43 @@
                                     name="ADD">Confirm</button>
                             </div>
                         </div>
-                    </div>
-
+                    </form>
                 </div>
-
-
-
-
-            </form>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Invoices On Record: </h4>
+                    {% if invoices|length == 0 %}
+                    <h6>None To Date.</h6>
+                    {% endif %}
+                    <ul class="list-group list-group-flush">
+                        {%for invoice in invoices%}
+                        <li class="list-group-item">{{invoice.date}} | TSD#{{invoice.invoice_id}} | {{invoice.store}}
+                        </li>
+                        {%endfor%}
+                        <li class="list-group-item">
+                            <form method='POST' class="form-group m-4">
+                                {%csrf_token%}
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">TSD#
+                                        </span>
+                                    </div>
+                                    {{view.order}}
+                                    <div class="input-group-append">
+                                        <button id="VIEW" class="btn btn-primary float-right" type="submit"
+                                            name="VIEW">View</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
-    <h4>Invoices On Record: </h4>
-    <ul class="list-group list-group-flush">
-        {%for invoice in invoices%}
-        <li class="list-group-item">{{invoice.date}} | TSD#{{invoice.invoice_id}} | {{invoice.store}}</li>
-        {%endfor%}
-        <li class="list-group-item">
-            <form method='POST' class="form-group m-4">
-                {%csrf_token%}
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">View Order: </span>
-                    </div>
-                    {{view.order}}
-                    <div class="input-group-append">
-                        <button id="VIEW" class="btn btn-primary float-right" type="submit" name="VIEW">View</button>
-                    </div>
-                </div>
-            </form>
-        </li>
-    </ul>
-
 </body>
 
 </html>

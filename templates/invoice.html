@@ -12,25 +12,59 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
     </script>
+    <style>
+        @media only screen and (min-width: 992px) {
+            body {
+                width: fit-content;
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body class="text-monospace">
+    {% if info|length == 0 %}
+    <h3>Invoice not on record. Go back and try again.</h3>
+    {%endif%}
     {% for invoice in info%}
     <div class="card m-4">
         <div class="card-body">
-            <h4>TSD#{{invoice.invoice_id}}</h4>
-            <h5>Invoice For {{invoice.store}}</h5>
-            <h7>{{invoice.date}}</h7>
+            <div class="row">
+                <div class="col">
+                    <h4>TSD#{{invoice.invoice_id}}</h4>
+                </div>
+                <div class="col text-right">The Spice Direct LTD.</div>
+                <div class="w-100"></div>
+                <div class="col">
+                    <h5>Invoice For {{invoice.store}}</h5>
+                </div>
+                <div class="col text-right">Ottawa, ON Canada</div>
+                <div class="w-100"></div>
+                <div class="col">
+                    <h7>{{invoice.date}}</h7>
+                </div>
+                <div class="col text-right"></div>
+            </div>
             <hr class="my-4">
             <div class="m-4">
-                <div class="float-left">1 Gram Glass (${{invoice.oneglass_p}} per):</div><br>
-                <div class="float-right">{{invoice.oneglass}}</div>
+                <div class="float-left">Glass Jars</div>
                 <hr class="my-4">
-                <div class="float-left">2 Gram Glass (${{invoice.twoglass_p}} per):</div><br>
-                <div class="float-right">{{invoice.twoglass}}</div>
+                <div class="float-left" style="text-indent: 30px;">1 Gram Glass (${{invoice.oneglass_p}} per):</div>
+
+                <div class="text-center">{{invoice.oneglass}}</div>
+
+                <div class="float-left" style="text-indent: 30px;">2 Gram Glass (${{invoice.twoglass_p}} per):</div>
+                <div class="text-center">{{invoice.twoglass}}</div><br />
+                <div class="float-left">Total: </div>
+                <div class="text-right">${{gTotal}} </div>
+
                 <hr class="my-4">
-                <div class="float-left">3 Gram Tin (${{invoice.twocan_p}} per):</div><br>
-                <div class="float-right">{{invoice.twocan}}</div>
+                <div class="float-left">Aluminum Cans</div>
+                <hr class="my-4">
+                <div class="float-left" style="text-indent: 30px;">2 Gram Can (${{invoice.twocan_p}} per) :</div>
+                <div class="text-center">{{invoice.twocan}}</div><br />
+
+                <div class="float-left">Total: </div>
+                <div class="text-right">${{cTotal}} </div>
                 <hr class="my-4">
             </div>
             <div class="float-left">Total Order:</div><br>

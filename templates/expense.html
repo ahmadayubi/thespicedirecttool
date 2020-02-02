@@ -4,25 +4,67 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
     </script>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'track:index' %}">Home</a>
+
+
+        <div class="form-inline" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-2 list-group list-group-horizontal">
+                <li class="nav-item active mr-5">
+                    <a class="nav-link" href="{% url 'track:user' id=1 %}">Adil <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active mr-5">
+                    <a class="nav-link" href="{% url 'track:user' id=2 %}">Zak <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active mr-5">
+                    <a class="nav-link" href="{% url 'track:user' id=3 %}">Yama <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active mr-5">
+                    <a class="nav-link" href="{% url 'track:expense' %}">All Expenses <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active mr-5">
+                    <a class="nav-link" href="{% url 'track:store' %}">Store Invoices <span
+                            class="sr-only">(current)</span></a>
+                </li>
+
+            </ul>
+            <form class="form-inline my-2 my-lg-0" method='POST'>
+                {%csrf_token%}
+                {{search.order}}
+                <button class="btn btn-outline-info my-2 my-sm-0" type="submit" id="FIND" name="FIND">Find
+                    Order</button>
+            </form>
+        </div>
+    </nav>
 
 </head>
 
 <body class="m-2">
-    <h2>All Expenses To Date</h2>
-    {%for exp in expenses%}
-    <div class="alert alert-info" role="alert">
+    <h2>All Expenses:</h2>
+    {% if expenses|length == 0 %}
+    <h6>None To Date.</h6>
+    {% endif %}
+    <ul class="list-group list-group-flush">
+        {%for exp in expenses%}
+        <li class="list-group-item">
+            <ul class="list-group list-group-horizontal-md border-0">
+                <li class="list-group-item border-0">{{exp.date}}</li>
+                <li class="list-group-item border-0">{{exp.name}}</li>
+                <li class="list-group-item border-0">{{exp.reason}}</li>
+                <li class="list-group-item border-0">${{exp.amount}}</li>
+            </ul>
+        </li>
 
-
-        <ul class="list-group list-group-horizontal-md">
-            <li class="list-group-item">{{exp.date}}</li>
-            <li class="list-group-item">{{exp.name}}</li>
-            <li class="list-group-item">{{exp.reason}}</li>
-            <li class="list-group-item">${{exp.amount}}</li>
-        </ul>
-    </div>
-    {%endfor%}
+        {%endfor%}
+    </ul>
 
 </body>
 

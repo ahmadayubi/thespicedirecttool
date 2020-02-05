@@ -24,7 +24,7 @@ key = os.environ.get('KEY')
 SECRET_KEY = key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -130,6 +130,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+
+LOGIN_REDIRECT_URL = 'track:index'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'

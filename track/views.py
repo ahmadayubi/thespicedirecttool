@@ -6,35 +6,9 @@ from .forms import OrderForm, ExpenseForm, SearchForm, InvoiceForm
 app_name = 'track'
 
 
-class LoginView(TemplateView):
+class SplashView(TemplateView):
     def get(self, request):
-        pwd = SearchForm()
-        cont = {
-            'pwd': pwd,
-        }
-        return render(request, 'login.html', cont)
-
-    def post(self, request):
-        pwd = SearchForm(request.POST)
-        if pwd.is_valid():
-            s = pwd.cleaned_data['order']
-            check = Product.objects.filter(size=s)
-            print(check)
-            if len(check) == 0:
-                pwd = SearchForm()
-                cont = {
-                    'pwd': pwd,
-                }
-                return render(request, 'login.html', cont)
-
-        search = SearchForm()
-        reOrder = Order.objects.all().order_by('-date')[:5]
-        context = {
-            'search': search,
-            'orders': reOrder,
-        }
-
-        return render(request, 'index.html', context)
+        return render(request, 'splash.html')
 
 
 class HomeView(TemplateView):

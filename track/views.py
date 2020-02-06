@@ -85,12 +85,13 @@ class UserView(TemplateView):
         if 'ORDER' in request.POST:
             orderForm = OrderForm(request.POST)
             if orderForm.is_valid():
+                buyerN = orderForm.cleaned_data['buyer']
                 quant = orderForm.cleaned_data['amount']
                 oID = orderForm.cleaned_data['order_id']
                 paid = orderForm.cleaned_data['paid']
                 date = orderForm.cleaned_data['date']
                 newOrder = Order(name=user, order_id=oID,
-                                 amount_paid=paid, date=date, quantity=quant)
+                                 amount_paid=paid, date=date, quantity=quant, buyer=buyerN)
                 newOrder.save()
         if 'FIND' in request.POST:
             searchForm = SearchForm(request.POST)

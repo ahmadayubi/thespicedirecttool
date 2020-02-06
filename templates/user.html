@@ -64,6 +64,12 @@
                         {%csrf_token%}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Buyer's Name </span>
+                            </div>
+                            {{orderF.buyer}}
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">Items Shipped </span>
                             </div>
                             {{orderF.amount}}

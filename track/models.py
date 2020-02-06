@@ -32,6 +32,7 @@ class Order(models.Model):
         ('Yama', 'Yama'),
     )
     name = models.CharField(max_length=15, choices=PACK, default='yama')
+    buyer = models.CharField(max_length=20, default='Bob')
     order_id = models.CharField(max_length=100)
     amount_paid = models.FloatField(default=0.00)
     quantity = models.IntegerField(default=1)

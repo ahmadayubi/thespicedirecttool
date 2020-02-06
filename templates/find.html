@@ -54,7 +54,16 @@
     <h1>Invoice Not On Record</h1>
     {%else%}
     {% for in in info%}
-    {{in.name}}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Order ID: {{in.order_id}}</h1>
+            <h2>Buyer: {{in.buyer}}</h2>
+            <h5>Shipped By: {{in.name}}</h5>
+            <h5>Paid: ${{in.amount_paid}}</h5>
+            <h5>Quanitity of Order: {{in.quantity}}</h5>
+            <h5>Date: {{in.date}}</h5>
+        </div>
+    </div>
     {%endfor%}
     {%endif%}
 </body>

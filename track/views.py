@@ -14,7 +14,7 @@ class SplashView(TemplateView):
 class HomeView(TemplateView):
     def get(self, request):
         search = SearchForm()
-        reOrder = Order.objects.all().order_by('-date')[:5]
+        reOrder = Order.objects.all().order_by('-date')
         context = {
             'search': search,
             'orders': reOrder,

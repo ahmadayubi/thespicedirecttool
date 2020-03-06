@@ -52,7 +52,7 @@
     <h4>Recent Orders Commited:</h4>
     <ul class="list-group list-group-flush">
         {%for order in orders%}
-        <li class="list-group-item">{{order.date}} | {{order.name}} shipped {{order.quantity}} can(s) | ID:
+        <li class="list-group-item">{{order.date}} | {{order.name}} shipped {{order.quantity}} can(s) to {{order.buyer}}| ID:
             {{order.order_id}}</li>
         {%endfor%}
     </ul>

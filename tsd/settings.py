@@ -75,6 +75,7 @@ WSGI_APPLICATION = 'tsd.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+n = os.environ.get('DB_NAME')
 u = os.environ.get('DB_USER')
 p = os.environ.get('DW_P')
 h = os.environ.get('DB_HOST')
@@ -84,9 +85,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'OPTIONS': {
-            'options': '-c search_path=tsd'
+            'options': '-c search_path=public'
         },
-        'NAME': u,
+        'NAME': n,
         'USER': u,
         'PASSWORD': p,
         'HOST': h,
